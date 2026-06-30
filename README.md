@@ -177,6 +177,7 @@ data/
 |   |-- sample_0001.mp4
 |   |-- sample_0002.mp4
 |   `-- ...
+|-- file_list.txt
 |-- train_list.txt
 |-- val_list.txt
 `-- test_list.txt
@@ -196,7 +197,7 @@ data/
 |   `-- <video_id>/
 |       |-- speech_features.pt
 |       `-- dynamic_features.pt
-`-- frequent_features/        # Optional legacy / ablation features
+`-- frequent_features/        
 ```
 
 ---
@@ -208,10 +209,8 @@ data/
 ```bash
 python -m hybrid_forensics.preprocessing.extract_landmarks \
   --video_root data/videos \
-  --file_list data/train_list.txt \
-  --output_dir data/landmarks \
-  --face_detector checkpoints/Resnet50_Final.pth \
-  --num_workers 4
+  --file_list data/file_list.txt \
+  --output_dir data/landmarks 
 ```
 
 ### 2. Crop Mouth Regions
@@ -220,13 +219,9 @@ python -m hybrid_forensics.preprocessing.extract_landmarks \
 python -m hybrid_forensics.preprocessing.crop_mouths \
   --video_root data/videos \
   --landmarks_dir data/landmarks \
-  --file_list data/train_list.txt \
+  --file_list data/file_list.txt \
   --output_dir data/cropped_mouths \
-  --mean_face data/20words_mean_face.npy \
-  --crop_width 96 \
-  --crop_height 96 \
-  --num_workers 8 \
-  --skip_existing
+  --mean_face data/20words_mean_face.npy
 ```
 
 This step creates two types of mouth-region inputs:
@@ -239,10 +234,8 @@ This step creates two types of mouth-region inputs:
 ```bash
 python -m hybrid_forensics.preprocessing.extract_audio \
   --video_root data/videos \
-  --file_list data/train_list.txt \
-  --output_dir data/audio \
-  --ffmpeg /usr/bin/ffmpeg \
-  --sample_rate 16000
+  --file_list data/file_list.txt \
+  --output_dir data/audio
 ```
 
 ### 4. Cache Semantic and Dynamic Features
@@ -254,8 +247,6 @@ python scripts/extract_features.py \
   --speech_audio_dir data/audio \
   --dynamic_mouth_dir data/cropped_mouths \
   --output_dir data/cached_features \
-  --checkpoint_path checkpoints/av_hubert/large_vox_iter5.pt \
-  --dynamic_model_path checkpoints/dynamic/dynamic_ff.pth \
   --frames_per_clip 25
 ```
 
@@ -267,9 +258,7 @@ data/cached_features/val
 data/cached_features/test
 ```
 
-### 5. Optional: Extract Legacy Frequency Features
-
-The current TriCon model computes the wavelet frequency stream internally from `f_dyn` when `--use_frequent` is enabled. The following command is mainly provided for ablation studies or legacy experiments.
+### 5. Optional: Extract Frequency Features
 
 ```bash
 python hybrid_forensics/preprocessing/extract_frequent.py \
@@ -279,8 +268,13 @@ python hybrid_forensics/preprocessing/extract_frequent.py \
   --transform dwt \
   --wavelet db4
 ```
+Repeat this step for the validation and test splits. Alternatively, use separate output roots such as:
 
----
+```text
+data/frequent_features/train
+data/frequent_features/val
+data/frequent_features/test
+```
 
 ## Training
 
@@ -292,18 +286,15 @@ python -m hybrid_forensics.training.train_tricon \
   --val_feature_dir data/cached_features/val \
   --train_file_list data/train_list.txt \
   --val_file_list data/val_list.txt \
-  --epochs 10 \
+  --train_frequent_dir data/frequent_features/train \
+  --val_frequent_dir data/frequent_features/val \
+  --epochs 8 \
   --batch_size 32 \
   --lr 1e-3 \
-  --weight_decay 1e-4 \
   --contrast_weight 0.5 \
   --contrast_margin 0.5 \
   --class_weight balanced \
-  --seq_len 25 \
-  --save_dir checkpoints/main \
-  --log_dir logs/main \
-  --devices 1 \
-  --seed 42
+  --save_dir checkpoints/main 
 ```
 
 Key arguments are summarized below.
@@ -314,8 +305,7 @@ Key arguments are summarized below.
 | `--contrast_weight` | Weight of the margin-based residual consistency loss |
 | `--contrast_margin` | Residual margin `rho` for forged samples |
 | `--class_weight balanced` | Computes class weights from the training split |
-| `--seq_len 25` | Temporal length `T_c` used by TriCon |
-| `--use_per_clip` | Predicts each clip independently and averages clip-level predictions at the video level |
+
 
 ---
 
@@ -327,8 +317,6 @@ python scripts/evaluate_tricon.py \
   --file_list data/test_list.txt \
   --checkpoint checkpoints/main/best_TriCon.ckpt \
   --output_dir results/main \
-  --batch_size 16 \
-  --seq_len 25 \
   --threshold 0.5
 ```
 
