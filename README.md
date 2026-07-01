@@ -267,19 +267,6 @@ data/cached_features/val
 data/cached_features/test
 ```
 
-### 5. Optional: Extract Legacy Frequency Features
-
-The current TriCon model computes the wavelet frequency stream internally from `f_dyn` when `--use_frequent` is enabled. The following command is mainly provided for ablation studies or legacy experiments.
-
-```bash
-python hybrid_forensics/preprocessing/extract_frequent.py \
-  --video_list data/train_list.txt \
-  --feature_root data/cached_features \
-  --output_dir data/frequent_features \
-  --transform dwt \
-  --wavelet db4
-```
-
 ---
 
 ## Training
