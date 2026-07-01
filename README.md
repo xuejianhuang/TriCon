@@ -297,7 +297,6 @@ Key arguments are summarized below.
 
 | Argument | Description |
 | --- | --- |
-| `--use_frequent` | Enables the semantic-to-frequency projection and the internal wavelet frequency stream |
 | `--contrast_weight` | Weight of the margin-based residual consistency loss |
 | `--contrast_margin` | Residual margin `rho` for forged samples |
 | `--class_weight balanced` | Computes class weights from the training split |
