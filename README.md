@@ -196,7 +196,6 @@ data/
 |   `-- <video_id>/
 |       |-- speech_features.pt
 |       `-- dynamic_features.pt
-`-- frequent_features/        # Optional legacy / ablation features
 ```
 
 ---
