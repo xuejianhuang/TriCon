@@ -777,3 +777,4 @@ class AVHubertModel(BaseFairseqModel):
             logits[1:][neg_is_pos] = float("-inf")
         logits = logits.transpose(0, 1)  # (num_x, num_cls+1)
         return logits
+ 

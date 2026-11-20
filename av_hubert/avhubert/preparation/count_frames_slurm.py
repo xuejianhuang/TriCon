@@ -73,3 +73,4 @@ if __name__ == '__main__':
         with open(f"{args.root}/nframes.video", 'w') as fo:
             fo.write(''.join([f"{x}\n" for x in video_num_frames]))
         shutil.rmtree(tmp_dir)
+ 

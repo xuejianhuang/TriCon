@@ -34,3 +34,4 @@ if __name__ == '__main__':
     ckpt_paths = sys.argv[1:]
     for ckpt_path in ckpt_paths:
         add_task_state(ckpt_path)
+ 

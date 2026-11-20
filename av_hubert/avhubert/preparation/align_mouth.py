@@ -252,3 +252,4 @@ if __name__ == '__main__':
         write_video_ffmpeg(sequence, dst_pathname, args.ffmpeg)
 
     print('Done.')
+ 

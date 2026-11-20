@@ -67,3 +67,4 @@ if __name__ == '__main__':
                 fo.write(''.join([f"{x}\n" for x in audio_num_frames]))
             with open(f"{args.root}/nframes.video.{args.rank}", 'w') as fo:
                 fo.write(''.join([f"{x}\n" for x in video_num_frames]))
+ 

@@ -398,3 +398,4 @@ class AVHubertPretrainingTask(FairseqTask):
             search_strategy=search_strategy,
             **extra_gen_cls_kwargs,
         )
+ 

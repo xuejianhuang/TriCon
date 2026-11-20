@@ -137,3 +137,4 @@ python mix_babble.py --lrs3 ${lrs3}
 python noise_manifest.py --lrs3 ${lrs3}  --musan ${musan}
 ```
 It will make manifest (tsv) files for MUSAN babble, music and noise in `${musan}/tsv/{babble,music,noise}`, as well as a combined manifest in `${musan}/tsv/all` including MUSAN babble, music, noise and LRS3 speech. 
+ 

@@ -97,3 +97,4 @@ if __name__ == "__main__":
     logging.info(str(args))
 
     dump_label(**vars(args))
+ 

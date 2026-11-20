@@ -58,3 +58,4 @@ if __name__ == '__main__':
         output_dir = f"{args.vox}/audio"
         manifest = f"{args.vox}/file.list"
         prep_wav(args.vox, output_dir, manifest, args.ffmpeg, args.rank, args.nshard)
+ 

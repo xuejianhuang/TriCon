@@ -70,3 +70,4 @@ if __name__ == '__main__':
     print(skvideo.getFFmpegPath())
     import skvideo.io
     detect_face_landmarks(args.face_predictor, args.cnn_detector, args.root, args.landmark, args.manifest, args.rank, args.nshard)
+ 

@@ -98,3 +98,4 @@ python submit_cluster.py --tsv ${tsv_dir} --output ${lab_dir} --ckpt ${ckpt_path
 ```
 
 This would  dump labels to `${lab_dir}/{train,valid}.km`.
+ 

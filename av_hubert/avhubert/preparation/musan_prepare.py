@@ -140,3 +140,4 @@ if __name__ == '__main__':
         for wav_fn, nf in zip(wav_fns, nfs):
             fo.write(os.path.abspath(wav_fn)+'\t'+str(nf)+'\n')
     shutil.rmtree(tmp_dir)
+ 

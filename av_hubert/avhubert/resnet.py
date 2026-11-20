@@ -167,3 +167,4 @@ class ResEncoder(nn.Module):
         n_batch, n_channels, s_time, sx, sy = x.shape
         x = x.transpose(1, 2).contiguous()
         return x.reshape(n_batch*s_time, n_channels, sx, sy)
+ 

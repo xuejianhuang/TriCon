@@ -68,3 +68,4 @@ def gen_vocab(
         for _, s in sorted(vocab.items(), key=lambda x: x[0]):
             f_out.write(f"{s} 1\n")
     return
+ 

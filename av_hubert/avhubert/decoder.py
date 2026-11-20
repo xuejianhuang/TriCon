@@ -241,3 +241,4 @@ class TransformerDecoder(FairseqIncrementalDecoder):
     def upgrade_state_dict_named(self, state_dict, name):
         return state_dict
 
+ 

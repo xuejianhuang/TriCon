@@ -167,3 +167,4 @@ class AVHubertCriterion(FairseqCriterion):
         to True will improves distributed training speed.
         """
         return False
+ 
